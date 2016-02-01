@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<module>
+	<name>
+		Fondy
+	</name>
+	<settings>
+		<variable>fondy_merchantid</variable>
+		<name>ID мерчанта</name>
+	</settings>
+	<settings>
+		<variable>fondy_secret</variable>
+		<name>Секретный ключ</name>
+	</settings>
+     
+        <settings>
+		<variable>fondy_paymode</variable>
+		<name>Способ оплаты</name>
+	</settings>
+	<settings>
+		<variable>fondy_lang</variable>
+		<name>Язык окна</name>
+	</settings>
+	
+</module>
