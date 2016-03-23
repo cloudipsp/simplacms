@@ -135,6 +135,5 @@ function checkoutInit(url, val) {
     </script>
     <input type="button" onclick="callmag();" class="checkout_button" value="'.$button_text.'">
     ';
-
 	}
 }
