@@ -29,10 +29,11 @@ class fondycsl
         if ($oplataSettings['merchant'] != $response['merchant_id']) {
             return 'An error has occurred during payment. Merchant data is incorrect.';
         }
-        $originalResponse = $response;
-        $strs = explode(fondycsl::SIGNATURE_SEPARATOR,$originalResponse['response_signature_string']);
-        $str = (str_replace($strs[0],$oplataSettings['secretkey'],$originalResponse['response_signature_string']));
-        if (sha1($str) != $originalResponse['signature']) {
+   
+		$responseSignature = $response['signature'];
+        unset($response['response_signature_string']);
+		unset($response['signature']);
+		if (fondycsl::getSignature($response, $oplataSettings['secretkey']) != $responseSignature) {
             return 'An error has occurred during payment. Signature is not valid.';
         }
         return true;
