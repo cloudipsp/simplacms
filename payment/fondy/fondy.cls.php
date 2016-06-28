@@ -31,8 +31,12 @@ class fondycsl
         }
    
 		$responseSignature = $response['signature'];
-        unset($response['response_signature_string']);
-		unset($response['signature']);
+		if (isset($response['response_signature_string'])){
+			unset($response['response_signature_string']);
+		}
+		if (isset($response['signature'])){
+			unset($response['signature']);
+		}
 		if (fondycsl::getSignature($response, $oplataSettings['secretkey']) != $responseSignature) {
             return 'An error has occurred during payment. Signature is not valid.';
         }
