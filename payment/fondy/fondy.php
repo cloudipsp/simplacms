@@ -45,13 +45,41 @@ class Fondy extends Simpla
 			'sender_email' => $order->email);
 
 		$oplata_args['signature'] = fondycsl::getSignature($oplata_args, $settings[fondy_secret]);
-
-		return '    <script src="https://api.fondy.eu/static_common/v1/checkout/ipsp.js"></script>
+ $out = '<script src="https://api.fondy.eu/static_common/v1/checkout/ipsp.js"></script>
                     <script src="https://rawgit.com/dimsemenov/Magnific-Popup/master/dist/jquery.magnific-popup.js"></script>
                     <link href="https://rawgit.com/dimsemenov/Magnific-Popup/master/dist/magnific-popup.css" type="text/css" rel="stylesheet" media="screen">
                     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
-<style>
+
+<div id="checkout">
+<div id="checkout_wrapper">
+</div>
+</div>';
+if ($settings['mode'] == 'popup'){
+ $out .='<script>
+function callmag(){
+$.magnificPopup.open({
+showCloseBtn:false,
+        items: {
+            src: $("#checkout_wrapper"),
+            type: "inline"
+        }
+    });
+}
+$(document).ready(function() {
+ $.magnificPopup.open({
+ showCloseBtn:false,
+        items: {
+            src: $("#checkout_wrapper"),
+            type: "inline"
+        }
+    });
+    })
+</script>';
+	}
+
+	 $out .='
+	 <style>
 #checkout_wrapper a{
     font-size: 20px;
     top: 30px;
@@ -71,31 +99,8 @@ class Fondy extends Simpla
     margin: 9px auto;
 }
 </style>
-<div id="checkout">
-<div id="checkout_wrapper">
-</div>
-</div>
-<script>
-function callmag(){
-$.magnificPopup.open({
-showCloseBtn:false,
-        items: {
-            src: $("#checkout_wrapper"),
-            type: "inline"
-        }
-    });
-}
-$(document).ready(function() {
- $.magnificPopup.open({
- showCloseBtn:false,
-        items: {
-            src: $("#checkout_wrapper"),
-            type: "inline"
-        }
-    });
-    })
-</script>
-<script>
+	 
+	 <script>
 function checkoutInit(url, val) {
 	$ipsp("checkout").scope(function() {
 		this.setCheckoutWrapper("#checkout_wrapper");
@@ -132,8 +137,10 @@ function checkoutInit(url, val) {
     button.addParam("sender_email","'.$oplata_args[sender_email].'");
     button.setResponseUrl("'.$oplata_args[response_url].'");
     checkoutInit(button.getUrl());
-    </script>
-    <input type="button" onclick="callmag();" class="checkout_button" value="'.$button_text.'">
-    ';
+    </script>';
+	if ($settings['mode'] == 'popup'){
+     $out .='<input type="button" onclick="callmag();" class="checkout_button" value="'.$button_text.'">';
+	}
+	return $out;
 	}
 }

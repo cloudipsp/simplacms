@@ -20,5 +20,16 @@
 		<variable>fondy_lang</variable>
 		<name>Язык окна</name>
 	</settings>
-	
+	<settings>
+		<variable>mode</variable>
+		<name>Mode</name>
+		<options>
+			<name>Отображение на странице</name>
+			<value>onpage</value>
+		</options>
+		<options>
+			<name>Отображение в pop-up окне</name>
+			<value>popup</value>
+		</options>
+	</settings>
 </module>
