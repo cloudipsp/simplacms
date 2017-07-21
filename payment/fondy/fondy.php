@@ -38,7 +38,7 @@ class Fondy extends Simpla
 			'order_id' => $order_id . fondycsl::ORDER_SEPARATOR . time(),
 			'merchant_id' => $settings['fondy_merchantid'],
 			'order_desc' => $desc,
-			'amount' => $price,
+			'amount' => $price * 100,
 			'currency' => $currency,
 			'server_callback_url' => $result_url,
 			'response_url' => $result_url,
