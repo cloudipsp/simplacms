@@ -28,8 +28,8 @@
 			<value>onpage</value>
 		</options>
 		<options>
-			<name>Отображение в pop-up окне</name>
-			<value>popup</value>
+			<name>Перенаправление на страницу оплаты</name>
+			<value>redirect</value>
 		</options>
 	</settings>
 </module>

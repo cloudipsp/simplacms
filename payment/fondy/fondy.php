@@ -27,7 +27,7 @@ class Fondy extends Simpla
 
 		$success_url = $this->config->root_url.'/order/';
 		$result_url = $this->config->root_url.'/payment/fondy/callback.php';
-       // print_r($settings);
+    
 		$currency = $payment_currency->code;
 		if ($currency == 'RUR')
 		  $currency = 'RUB';
@@ -47,36 +47,22 @@ class Fondy extends Simpla
 
 		$oplata_args['signature'] = fondycsl::getSignature($oplata_args, $settings[fondy_secret]);
 		$url = $this->get_checkout($oplata_args);
+		$out = '';
+		if ($settings['mode'] == 'redirect'){
+			$out .='<style>
+			.checkout_button{
+				text-decoration: none;
+				top: 10px;
+				position: relative;
+			}
+			</style>';
+			$out .='<a href="'. $url . '"class="checkout_button">'.$button_text.'</a>';
+		}else{
 			$out = '<script src="https://api.fondy.eu/static_common/v1/checkout/ipsp.js"></script>
-                    <script src="https://rawgit.com/dimsemenov/Magnific-Popup/master/dist/jquery.magnific-popup.js"></script>
-                    <link href="https://rawgit.com/dimsemenov/Magnific-Popup/master/dist/magnific-popup.css" type="text/css" rel="stylesheet" media="screen">
 			<div id="checkout">
 			<div id="checkout_wrapper">
 			</div>
 			</div>';
-			if ($settings['mode'] == 'popup'){
-			 $out .='<script>
-			function callmag(){
-			$.magnificPopup.open({
-			showCloseBtn:false,
-					items: {
-						src: $("#checkout_wrapper"),
-						type: "inline"
-					}
-				});
-			}
-			$(document).ready(function() {
-			 $.magnificPopup.open({
-			 showCloseBtn:false,
-					items: {
-						src: $("#checkout_wrapper"),
-						type: "inline"
-					}
-				});
-				})
-			</script>';
-				}
-
 				 $out .='
 				 <style>
 			#checkout_wrapper a{
@@ -126,9 +112,7 @@ class Fondy extends Simpla
 				};
 				checkoutInit("' . $url . '");
 				</script>';
-				if ($settings['mode'] == 'popup'){
-				 $out .='<input type="button" onclick="callmag();" class="checkout_button" value="'.$button_text.'">';
-				}
+			}
 				return $out;
 	}
 	protected function get_checkout($args){

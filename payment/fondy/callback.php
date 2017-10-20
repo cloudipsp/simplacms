@@ -49,6 +49,7 @@ if (empty($_POST))
                     echo 'Ok';
 
                 } else {
+					$simpla->orders->update_order(intval($order->id), array('paid' => 0));
                     echo 'error';
                 }
             }
@@ -58,7 +59,7 @@ if (empty($_POST))
     }
 }
 else
-{  // echo 2;
+{
     list($order_id,) = explode(fondycsl::ORDER_SEPARATOR, $_POST['order_id']);
     $order = $simpla->orders->get_order(intval($order_id));
     $payment_method = $simpla->payment->get_payment_method($order->payment_method_id);
@@ -88,9 +89,9 @@ else
                     $simpla->orders->close(intval($order->id));
 
 
-                    $invoice['status'] = $_POST[order_status];
+                    $invoice['status'] = $_POST['order_status'];
                     $invoice['transaction'] = $_POST['order_id'];
-                    $invoice['system'] = 'fondy';
+                    $invoice['system'] = 'Fondy';
                     $invoice['amount'] = $_POST['amount'] / 100 . " " . $_POST['actual_currency'];
 
                     $fonView->design->assign('invoice', $invoice);
@@ -100,9 +101,9 @@ else
                 } else {
                     $simpla->orders->update_order(intval($order->id), array('paid' => 0));
                     //$err=$_POST[order_desc];
-                    $invoice['status'] = $_POST[order_status];
-                    $invoice['error_message'] = $_POST[response_description];
-                    $invoice['error_code'] = $_POST[response_code];
+                    $invoice['status'] = $_POST['order_status'];
+                    $invoice['error_message'] = $_POST['response_description'];
+                    $invoice['error_code'] = $_POST['response_code'];
                     $fonView->design->assign('invoice', $invoice);
 
                     print $fonView->fetch();
@@ -113,7 +114,6 @@ else
         } else
             $err = "Amount check failed";
     }
-//$err = 'Order is paid';
     $invoice['error_code'] = 'unknown code';
     $invoice['status'] = $_POST[order_status];
     $invoice['error_message'] = $err;
