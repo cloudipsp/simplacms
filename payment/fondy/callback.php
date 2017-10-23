@@ -92,7 +92,8 @@ else
                     $invoice['status'] = $_POST['order_status'];
                     $invoice['transaction'] = $_POST['order_id'];
                     $invoice['system'] = 'Fondy';
-                    $invoice['amount'] = $_POST['amount'] / 100 . " " . $_POST['actual_currency'];
+					
+                    $invoice['amount'] = $_POST['amount'] / 100 . " " . $payment_currency->code;
 
                     $fonView->design->assign('invoice', $invoice);
 
@@ -100,7 +101,7 @@ else
 
                 } else {
                     $simpla->orders->update_order(intval($order->id), array('paid' => 0));
-                    //$err=$_POST[order_desc];
+                    
                     $invoice['status'] = $_POST['order_status'];
                     $invoice['error_message'] = $_POST['response_description'];
                     $invoice['error_code'] = $_POST['response_code'];
@@ -118,5 +119,4 @@ else
     $invoice['status'] = $_POST[order_status];
     $invoice['error_message'] = $err;
     $fonView->design->assign('invoice', $invoice);
-    print $fonView->fetch();
 }
