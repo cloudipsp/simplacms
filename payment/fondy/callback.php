@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 chdir ('../../');
 require_once('api/Simpla.php');
@@ -13,7 +13,11 @@ $err = '';
 if (empty($_POST))
 {
     $fap = json_decode(file_get_contents("php://input"));
-    $_POST=array();
+	if(empty($fap)){
+		die('No response');
+	}	
+    $_POST = array();
+	
     foreach($fap as $key=>$val)
     {
         $_POST[$key] =  $val ;
@@ -58,8 +62,7 @@ if (empty($_POST))
         echo 'Order status already updated';
     }
 }
-else
-{
+else{
     list($order_id,) = explode(fondycsl::ORDER_SEPARATOR, $_POST['order_id']);
     $order = $simpla->orders->get_order(intval($order_id));
     $payment_method = $simpla->payment->get_payment_method($order->payment_method_id);
